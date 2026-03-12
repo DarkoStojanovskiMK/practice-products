@@ -10,7 +10,7 @@
     "target": "es2020",
 
     // Node.js types - critical
-    "types": ["node"],
+
     "lib": ["es2020"], // esnext is fine too, but es2020 is more conservative
 
     // Output
