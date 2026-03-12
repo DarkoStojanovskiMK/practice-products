@@ -1,10 +1,9 @@
 import express from "express";
 // import products from "./products.js";
 import dotenv from "dotenv";
-import connectDB from "./DB/index.ts";
+import connectDB from "./DB/index";
 import cors from "cors";
-import Product from "./DB/models/products.ts";
-import routes from "./routes.ts";
+import routes from "./routes";
 
 dotenv.config();
 
