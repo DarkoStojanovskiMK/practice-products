@@ -1,39 +1,47 @@
 {
-  "ts-node": {
-    "transpileOnly": true,
-    "compilerOptions": {
-      "noImplicitAny": false,
-      "strict": false
-    }
-  },
   "compilerOptions": {
-    /* Visit https://aka.ms/tsconfig to read more about this file */
+    // File Layout
+    // "rootDir": "./src",
+    // "outDir": "./dist",
 
-    /* Language and Environment */
-    "target": "es2016" /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */,
-    /* Modules */
-    "module": "commonjs" /* Specify what module code is generated. */,
-    /* JavaScript Support */
-    "allowJs": true /* Allow JavaScript files to be a part of your program. Use the 'checkJS' option to get errors from these files. */,
-    // "checkJs": true,                                  /* Enable error reporting in type-checked JavaScript files. */
-    // "maxNodeModuleJsDepth": 1,                        /* Specify the maximum folder depth used for checking JavaScript files from 'node_modules'. Only applicable with 'allowJs'. */
-    /* Specify a file that bundles all outputs into one JavaScript file. If 'declaration' is true, also designates a file that bundles all .d.ts output. */
-    "outDir": "./dist" /* Specify an output folder for all emitted files. */,
-    "removeComments": true /* Disable emitting comments. */,
-    /* Allow 'import x from y' when a module doesn't have a default export. */
-    "esModuleInterop": true /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */,
-    // "preserveSymlinks": true,                         /* Disable resolving symlinks to their realpath. This correlates to the same flag in node. */
-    "forceConsistentCasingInFileNames": true /* Ensure that casing is correct in imports. */,
-    /* Type Checking */
-    "strict": false /* Enable all strict type-checking options. */,
-    "noImplicitAny": false /* Enable error reporting for expressions and declarations with an implied 'any' type. */,
-    "strictNullChecks": false /* When type checking, take into account 'null' and 'undefined'. */,
-    "strictFunctionTypes": false /* When assigning functions, check to ensure parameters and the return values are subtype-compatible. */,
-    "strictBindCallApply": false /* Check that the arguments for 'bind', 'call', and 'apply' methods match the original function. */,
-    "strictPropertyInitialization": false /* Check for class properties that are declared but not set in the constructor. */,
-    "noImplicitReturns": false /* Enable error reporting for codepaths that do not explicitly return in a function. */,
-    "noImplicitThis": false /* Enable error reporting when 'this' is given the type 'any'. */,
-    "noImplicitOverride": false /* Ensure overriding members in derived classes are marked with an override modifier. */,
-    "skipLibCheck": true /* Skip type checking all .d.ts files. */
+    // Environment Settings
+    // See also https://aka.ms/tsconfig/module
+    "module": "nodenext",
+    "target": "esnext",
+    "types": [],
+    // For nodejs:
+    // "lib": ["esnext"],
+    // "types": ["node"],
+    // and npm install -D @types/node
+
+    // Other Outputs
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+
+    // Stricter Typechecking Options
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+
+    // Style Options
+    // "noImplicitReturns": true,
+    // "noImplicitOverride": true,
+    // "noUnusedLocals": true,
+    // "noUnusedParameters": true,
+    // "noFallthroughCasesInSwitch": true,
+    // "noPropertyAccessFromIndexSignature": true,
+
+    // Recommended Options
+    "strict": true,
+    "jsx": "react-jsx",
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+    "noUncheckedSideEffectImports": true,
+    "moduleDetection": "force",
+    "skipLibCheck": true,
+
+    // Additions for your issue
+    "allowImportingTsExtensions": true,
+    "noEmit": true
   }
 }
