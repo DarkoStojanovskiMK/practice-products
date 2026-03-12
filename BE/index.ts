@@ -1,7 +1,7 @@
 import express from "express";
 // import products from "./products.js";
 import dotenv from "dotenv";
-import connectDB from "./DB/index";
+import connectDB from "./DB/connect";
 import cors from "cors";
 import routes from "./routes";
 
