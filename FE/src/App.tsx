@@ -1,5 +1,5 @@
-import { use, useEffect, useState } from "react";
-import { BASE_NODE_URL } from "./api/base_url";
+import { useEffect, useState } from "react";
+
 import {
   useCreateProductMutation,
   useGetProductsQuery,
@@ -8,7 +8,7 @@ import {
 } from "./api/apiRtk/productsApiSlice";
 
 function App() {
-  const { data, isLoading, isError, error } = useGetProductsQuery({});
+  const { data } = useGetProductsQuery({});
   const [createProduct] = useCreateProductMutation();
   const [updateProduct] = useUpdateProductMutation();
   const [deleteProduct] = useDeleteProductMutation();
