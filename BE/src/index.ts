@@ -10,11 +10,16 @@ dotenv.config();
 const port = process.env.PORT || 3000;
 const app = express();
 
-// const corsOptions = {
-//   origin: "http://localhost:5173",
-//   credentials: true,
-// };
-app.use(cors({ origin: "*" }));
+app.use(
+  cors({
+    origin:
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:5173"
+        : "https://practice-products.onrender.com", // or '*' for testing
+    credentials: true,
+  }),
+);
+
 app.use(express.json());
 // app.use(cors(corsOptions));
 
