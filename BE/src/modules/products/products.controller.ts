@@ -1,4 +1,4 @@
-import Product from "../../DB/models/products.ts";
+import Product from "../../DB/models/products.js";
 import { type Request, type Response } from "express";
 
 export default {
