@@ -1,9 +1,9 @@
 import express from "express";
 // import products from "./products.js";
 import dotenv from "dotenv";
-import connectDB from "./DB/helpers.ts";
+import { connectDB } from "./DB/helpers.js";
 import cors from "cors";
-import routes from "./routes.ts";
+import routes from "./routes.js";
 
 dotenv.config();
 

@@ -7,7 +7,7 @@ dns.setServers(["1.1.1.1", "8.8.8.8"]);
 dotenv.config();
 const uri = process.env.MONGO_DB_URI || "";
 
-const connectDB: any = async () => {
+export const connectDB: any = async () => {
   return mongoose.connect(uri, {
     // eslint-disable-next-line
     dbName: "proshop",
@@ -22,5 +22,3 @@ mongoose.connection.on(
 mongoose.connection.on("connected", () => {
   console.log("MongoDB connected on DB", "Proshop");
 });
-
-export default connectDB;
