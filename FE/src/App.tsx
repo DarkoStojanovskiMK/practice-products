@@ -1,133 +1,39 @@
-import { useEffect, useState } from "react";
-
-import {
-  useCreateProductMutation,
-  useGetProductsQuery,
-  useUpdateProductMutation,
-  useDeleteProductMutation,
-} from "./api/apiRtk/productsApiSlice";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { selectUserSession, setSession } from "./api/apiRtk/auth/authSlice";
+import { useEffect } from "react";
+import { supabase } from "./utils/supabase";
+import { useDispatch, useSelector } from "react-redux";
+import PublicRoutes from "./routes/PublicRoutes";
+import PrivateRoutes from "./routes/PrivateRoutes";
 
 function App() {
-  const { data } = useGetProductsQuery({});
-  const [createProduct] = useCreateProductMutation();
-  const [updateProduct] = useUpdateProductMutation();
-  const [deleteProduct] = useDeleteProductMutation();
-  const [products, setProducts] = useState([]);
-  const [newProductName, setNewProductName] = useState("");
-  const [newProductQuantity, setNewProductQuantity] = useState(0);
+  const session = useSelector(selectUserSession);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (data) {
-      console.log("data", data);
-      setProducts(data);
-    }
-  });
+    // 1. Fast initial session from storage
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      dispatch(setSession(session));
+    });
+
+    // 2. Subscribe to changes (login/logout/refresh/token expiry)
+    const { data: listener } = supabase.auth.onAuthStateChange((_, session) => {
+      dispatch(setSession(session));
+    });
+
+    // Cleanup on unmount (rare, but good practice)
+    return () => {
+      listener.subscription.unsubscribe();
+    };
+  }, [dispatch]);
 
   return (
-    <>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <div>
-          <h2>Products</h2>
-          {products.map((product: any) => (
-            <div
-              key={product._id}
-              style={{ display: "flex", alignItems: "center" }}
-            >
-              <p style={{ color: "white", marginRight: "30px" }}>
-                {product.name}
-              </p>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  marginRight: "30px",
-                }}
-              >
-                <div
-                  onClick={() =>
-                    updateProduct({
-                      id: product._id,
-                      body: { ...product, quantity: product.quantity - 1 },
-                    })
-                  }
-                >
-                  -
-                </div>
-                <p
-                  style={{
-                    color: "white",
-                    marginLeft: "10px",
-                    marginRight: "10px",
-                  }}
-                >
-                  {product.quantity}
-                </p>
-                <div
-                  onClick={() =>
-                    updateProduct({
-                      id: product._id,
-                      body: { ...product, quantity: product.quantity + 1 },
-                    })
-                  }
-                >
-                  +
-                </div>
-              </div>
-
-              <div
-                onClick={() => deleteProduct({ id: product._id })}
-                style={{
-                  cursor: "pointer",
-                  color: "red",
-                }}
-              >
-                x
-              </div>
-            </div>
-          ))}
-        </div>
-        <div>
-          <input
-            type="text"
-            placeholder="product name"
-            value={newProductName}
-            onChange={(v) => {
-              setNewProductName(v.target.value);
-            }}
-          />
-          <input
-            type="number"
-            placeholder="quantity"
-            value={newProductQuantity}
-            onChange={(v) => {
-              setNewProductQuantity(+v.target.value);
-            }}
-          />
-        </div>
-        <div className="card">
-          <button
-            onClick={() =>
-              createProduct({
-                body: {
-                  _id: crypto.randomUUID(),
-                  name: newProductName,
-                  quantity: newProductQuantity,
-                },
-              })
-            }
-          >
-            Create product
-          </button>
-        </div>
-      </div>
-    </>
+    <BrowserRouter>
+      <Routes>
+        {!session && <Route path="*" element={<PublicRoutes />} />}
+        {!!session && <Route path="*" element={<PrivateRoutes />} />}
+      </Routes>
+    </BrowserRouter>
   );
 }
 
