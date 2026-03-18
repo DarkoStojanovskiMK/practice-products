@@ -17,11 +17,9 @@ function App() {
     });
 
     // 2. Subscribe to changes (login/logout/refresh/token expiry)
-    const { data: listener } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        dispatch(setSession(session));
-      },
-    );
+    const { data: listener } = supabase.auth.onAuthStateChange((_, session) => {
+      dispatch(setSession(session));
+    });
 
     // Cleanup on unmount (rare, but good practice)
     return () => {
