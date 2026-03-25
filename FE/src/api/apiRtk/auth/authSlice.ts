@@ -39,5 +39,6 @@ export const { setSession, setLoading, clearAuth } = authSlice.actions;
 
 export const selectIsAuthenticated = (state: any) => state.auth.isAuthenticated;
 export const selectUserSession = (state: any) => state.auth.session;
+export const selectAuthUser = (state: any) => state.auth.supabaseUser;
 
 export default authSlice.reducer;

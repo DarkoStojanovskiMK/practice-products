@@ -6,12 +6,13 @@ import {
   useUpdateProductMutation,
   useDeleteProductMutation,
 } from "../../api/apiRtk/productsApiSlice";
-import { useDispatch } from "react-redux";
-import { clearAuth } from "../../api/apiRtk/auth/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { clearAuth, selectUserSession } from "../../api/apiRtk/auth/authSlice";
 import { supabase } from "../../utils/supabase";
 
 function Products() {
-  const { data } = useGetProductsQuery({});
+  const session = useSelector(selectUserSession);
+  const { data } = useGetProductsQuery({token: session?.access_token ?? ''});
   const SUPABASE_PROJECT_REF = import.meta.env.VITE_SUPABASE_PROJECT_REF;
   const [createProduct] = useCreateProductMutation();
   const [updateProduct] = useUpdateProductMutation();
@@ -24,7 +25,7 @@ function Products() {
     if (data) {
       setProducts(data);
     }
-  });
+  }, [data]);
 
   const dispatch = useDispatch();
   const onLogout = async () => {
@@ -44,7 +45,7 @@ function Products() {
       alert("Please enter a valid product name and quantity.");
       return;
     }
-    createProduct({
+    createProduct({token: session?.access_token ?? '',
       body: {
         _id: crypto.randomUUID(),
         name: newProductName,
@@ -83,6 +84,7 @@ function Products() {
                 <div
                   onClick={() =>
                     updateProduct({
+                      token: session?.access_token ?? '',
                       id: product._id,
                       body: {
                         ...product,
@@ -106,6 +108,7 @@ function Products() {
                 <div
                   onClick={() =>
                     updateProduct({
+                      token: session?.access_token ?? '',
                       id: product._id,
                       body: {
                         ...product,
@@ -120,7 +123,7 @@ function Products() {
               </div>
 
               <div
-                onClick={() => deleteProduct({ id: product._id })}
+                onClick={() => deleteProduct({token: session?.access_token ?? '', id: product._id })}
                 style={{
                   cursor: "pointer",
                   color: "red",
