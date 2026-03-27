@@ -1,19 +1,17 @@
 import { useEffect, useState } from "react";
-
 import {
   useCreateProductMutation,
   useGetProductsQuery,
   useUpdateProductMutation,
   useDeleteProductMutation,
 } from "../../api/apiRtk/productsApiSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { clearAuth, selectUserSession } from "../../api/apiRtk/auth/authSlice";
-import { supabase } from "../../utils/supabase";
+import { useSelector } from "react-redux";
+import {selectUserSession } from "../../api/apiRtk/auth/authSlice";
+import Header from "../../components/header/header";
 
 function Products() {
   const session = useSelector(selectUserSession);
   const { data } = useGetProductsQuery({token: session?.access_token ?? ''});
-  const SUPABASE_PROJECT_REF = import.meta.env.VITE_SUPABASE_PROJECT_REF;
   const [createProduct] = useCreateProductMutation();
   const [updateProduct] = useUpdateProductMutation();
   const [deleteProduct] = useDeleteProductMutation();
@@ -26,19 +24,6 @@ function Products() {
       setProducts(data);
     }
   }, [data]);
-
-  const dispatch = useDispatch();
-  const onLogout = async () => {
-    try {
-      await supabase.auth.signOut({ scope: "local" });
-    } catch (error) {
-      console.error(error);
-    } finally {
-      dispatch(clearAuth());
-      localStorage.removeItem(`sb-${SUPABASE_PROJECT_REF}-auth-token`);
-      sessionStorage.removeItem(`activeAccountId`);
-    }
-  };
 
   const handleCreateProduct = async () => {
     if (!newProductName || newProductQuantity < 0) {
@@ -56,6 +41,7 @@ function Products() {
 
   return (
     <>
+    <Header />
       <div
         style={{
           display: "flex",
@@ -64,6 +50,7 @@ function Products() {
           alignItems: "center",
         }}
       >
+        
         <div>
           <h2>Products</h2>
           {products.map((product: any) => (
@@ -159,9 +146,7 @@ function Products() {
         <div className="card">
           <button onClick={handleCreateProduct}>Create product</button>
         </div>
-        <div className="card">
-          <button onClick={onLogout}>Log out</button>
-        </div>
+       
       </div>
     </>
   );

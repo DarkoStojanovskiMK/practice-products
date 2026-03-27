@@ -54,7 +54,7 @@ const LoginPage = () => {
       console.error("Error signing in:", error.message);
     } else {
       dispatch(setSession(data.session));
-      console.log("User signed in successfully:", data);
+     
     }
   };
 
