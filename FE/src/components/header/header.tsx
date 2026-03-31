@@ -5,7 +5,7 @@ import Logo from '../../assets/logo.svg?react'
 import { useDispatch } from "react-redux";
 import { clearAuth } from "../../api/apiRtk/auth/authSlice";
 import { supabase } from "../../utils/supabase";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Header = () => {
 
@@ -22,12 +22,13 @@ const Header = () => {
       sessionStorage.removeItem(`activeAccountId`);
     }
   };
+  const navigate = useNavigate();
   return (
-    <div className='header'>
-        <Logo height={100} width={100}/>
+    <div className='header' >
+        <Logo className = "logo" height={100} width={100} onClick={()=>navigate('/')} />
         <div>
             <button onClick={onLogout}>Sign Out</button>
-            <Link to="/profile">Profile</Link>
+            <button><Link to="/profile">Profile</Link></button>
             
         </div>
     </div>

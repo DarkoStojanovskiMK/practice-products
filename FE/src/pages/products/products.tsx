@@ -41,7 +41,7 @@ function Products() {
 
   return (
     <>
-    <Header />
+
       <div
         style={{
           display: "flex",
