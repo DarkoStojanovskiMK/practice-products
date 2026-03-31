@@ -3,11 +3,13 @@ import "./login.css";
 import { supabase } from "../../utils/supabase";
 import { useDispatch } from "react-redux";
 import { setSession } from "../../api/apiRtk/auth/authSlice";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i;
 
@@ -33,6 +35,8 @@ const LoginPage = () => {
       alert(`Error signing up:${error.message}`);
     } else {
       dispatch(setSession(data.session));
+      navigate("/profile");
+
     }
   };
 
@@ -51,7 +55,8 @@ const LoginPage = () => {
       password,
     });
     if (error) {
-      console.error("Error signing in:", error.message);
+      console.error(error);
+      alert("Error signing in: Invalid login credentials");
     } else {
       dispatch(setSession(data.session));
      
