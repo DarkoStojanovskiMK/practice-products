@@ -7,7 +7,6 @@ import {
 } from "../../api/apiRtk/productsApiSlice";
 import { useSelector } from "react-redux";
 import {selectUserSession } from "../../api/apiRtk/auth/authSlice";
-import Header from "../../components/header/header";
 
 function Products() {
   const session = useSelector(selectUserSession);
